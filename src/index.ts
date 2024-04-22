@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import express, { Express, Response, Request, NextFunction } from 'express';
+import express, { Express, Response, NextFunction } from 'express';
 import cors from "cors";
 import proxyRoutes from './routes/proxyRoutes.js'
 
@@ -13,8 +13,9 @@ app.use(express.json());
 
 app.use('/api/movies', proxyRoutes);
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+app.use((err: any, res: Response) => {
   console.error(err);
+  
   res.status(err.status || 500).send({
     message: err.message || 'Internal Server Error',
   });
